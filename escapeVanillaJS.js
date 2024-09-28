@@ -20,17 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // 🪲 Bug: Asynchronous function ?
-    document.getElementById("solveRoom3").addEventListener("click", () => {
-        fetch('directions.json') 
-            .then(response => response.json())
-            .then(directions => {
-                navigateLabyrinth(directions)
-                    .then(message => {
-                        // 🪲 Bug: Incorrect method
-                        document.getElementById("room3Result").innerHTML = message;
-                    });
+    document.getElementById("solveRoom3").addEventListener("click", async () => {
+        const response = await fetch('directions.json') 
+        const directions = await response.json()
+        const message = await navigateLabyrinth(directions)
+        // 🪲 Bug: Incorrect method
+        document.getElementById("room3Result").innerHTML = message;                    
             });
-    });
 });
 
 function findMostRecentBook(books) {
@@ -55,7 +51,7 @@ function findIntersection(setA, setB) {
 async function navigateLabyrinth(directions) {
     for (let direction of directions) {
         // 🪲 Bug: No delay
-        new Promise(resolve => setTimeout(resolve, 1000));
+        new Promise(resolve => setTimeout(() => resolve, 1000));
         console.log(`Navigating: ${direction.step}`);
     }
     return "Congratulations! You've mastered the essentials of Vanilla JavaScript. Welcome to the world of React, where you'll build powerful and dynamic web applications. Let's dive in!";
